@@ -4,16 +4,20 @@
            (com.amazonaws.services.simpleemail.model SendEmailRequest Content Message Body Destination)
            (com.amazonaws.auth BasicAWSCredentials DefaultAWSCredentialsProviderChain AWSCredentialsProvider AWSCredentials)))
 
+(defn make-client
+  ([] (AmazonSimpleEmailServiceClient.))
+  ([config] (AmazonSimpleEmailServiceClient. config)))
+
 (def ses-client*
   (memoize
     (fn [{:keys [provider access-key secret-key] :as client-opts}]
       (if (empty? client-opts)
-        (AmazonSimpleEmailServiceClient.)
+        (make-client)
         (let [^AWSCredentials creds
               (when-not provider (BasicAWSCredentials. access-key secret-key))
               ^AWSCredentialsProvider provider
               (or provider (when-not creds (DefaultAWSCredentialsProviderChain.)))]
-          (AmazonSimpleEmailServiceClient. (or provider creds)))))))
+          (make-client (or provider creds)))))))
 
 (defn ses-client ^AmazonSimpleEmailServiceClient [client-opts] (ses-client* client-opts))
 
@@ -24,15 +28,17 @@
 
 (defn create-body
   [html_body text_body]
-  (doto-cond [b (Body.)]
-    html_body (.withHtml (Content. html_body))
-    text_body (.withText (Content. text_body))))
+  (if (or html_body text_body)
+    (doto-cond [b (Body.)]
+      html_body (.withHtml (Content. html_body))
+      text_body (.withText (Content. text_body)))
+    (Body. (Content. ""))))
 
 (defn send-email-request
   [from to subject & [{:keys [html_body text_body]}]]
   (let [destination (create-destination to)
         message (-> (Message. (Content. subject) (create-body html_body text_body)))]
-    (-> (SendEmailRequest.) (.withSource from) (.withDestination destination) (.withMessage message))))
+    (SendEmailRequest. from destination message)))
 
 (defn send-email
   "Send an email to one or multiple recipients. Body is optional.
