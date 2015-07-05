@@ -4,6 +4,10 @@ A thin, partial Clojure wrapper around the Amazon SES Java API. I wrote this bec
 rely on instance profiles for AWS access control instead of using [Postal](https://github.com/drewr/postal) and having to 
 configure SMTP credentials client-side.
 
+Only the `sendEmail` method is wrapped at the moment.
+
+[![Clojars Project](http://clojars.org/ses-mailer/latest-version.svg)](http://clojars.org/ses-mailer)
+
 ## Usage
 
 ```clj
