@@ -11,16 +11,16 @@ configure SMTP credentials client-side.
   "no-reply@company.com"
   "lucky-customer@me.com"
   "You are our millionth customer!"
-  {:html_body "<html>Awesome html content</html>
+  {:html_body "<html>Awesome html content</html>"
    :text_body "Boring text content"}
 ```
 
 Where client-opts may be:
 
 ```clj
-# Using the default provider chain falls back to the instance profile
+; Using the default provider chain falls back to the instance profile
 {:provider (DefaultAWSCredentialsProviderChain.)}
-# Or use keys directly
+; Or use keys directly
 {:access-key "..." :secret-key "..."}
 
 ```
