@@ -6,7 +6,7 @@ configure SMTP credentials client-side.
 
 ## Usage
 
-```clojure
+```clj
 (send-email client-opts
   "no-reply@company.com"
   "lucky-customer@me.com"
@@ -17,7 +17,7 @@ configure SMTP credentials client-side.
 
 Where client-opts may be:
 
-```clojure
+```clj
 # Using the default provider chain falls back to the instance profile
 {:provider (DefaultAWSCredentialsProviderChain.)}
 # Or use keys directly
