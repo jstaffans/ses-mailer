@@ -1,4 +1,4 @@
-(defproject ses-mailer "0.0.2"
+(defproject ses-mailer "0.0.3-SNAPSHOT"
   :author "Johannes Staffans"
   :description "Clojure SES client"
   :url "https://github.com/jstaffans/ses-mailer"
