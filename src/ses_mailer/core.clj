@@ -27,17 +27,17 @@
     (.withToAddresses (Destination.) to-addresses)))
 
 (defn create-body
-  [html_body text_body]
-  (if (or html_body text_body)
+  [html-body text-body]
+  (if (or html-body text-body)
     (doto-cond [b (Body.)]
-      html_body (.withHtml (Content. html_body))
-      text_body (.withText (Content. text_body)))
+      html-body (.withHtml (Content. html-body))
+      text-body (.withText (Content. text-body)))
     (Body. (Content. ""))))
 
 (defn send-email-request
-  [from to subject & [{:keys [html_body text_body]}]]
+  [from to subject & [{:keys [html-body text-body]}]]
   (let [destination (create-destination to)
-        message (-> (Message. (Content. subject) (create-body html_body text_body)))]
+        message (-> (Message. (Content. subject) (create-body html-body text-body)))]
     (SendEmailRequest. from destination message)))
 
 (defn send-email
@@ -47,11 +47,10 @@
     \"no-reply@company.com\"
     \"lucky-customer@me.com\"
     \"You are our millionth customer!\"
-    {:html_body \"<html>Awesome html content</html>
-     :text_body \"Boring text content\"}
+    {:html-body \"<html>Awesome html content</html>
+     :text-body \"Boring text content\"}
   "
   [client-opts from to subject & [opts]]
-  (println opts)
   (.sendEmail
     (ses-client client-opts)
     (send-email-request from to subject opts)))
