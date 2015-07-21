@@ -2,7 +2,14 @@
   (:require [taoensso.encore :refer [doto-cond]])
   (:import (com.amazonaws.services.simpleemail AmazonSimpleEmailServiceClient)
            (com.amazonaws.services.simpleemail.model SendEmailRequest Content Message Body Destination)
-           (com.amazonaws.auth BasicAWSCredentials DefaultAWSCredentialsProviderChain AWSCredentialsProvider AWSCredentials)))
+           (com.amazonaws.auth BasicAWSCredentials DefaultAWSCredentialsProviderChain AWSCredentialsProvider AWSCredentials)
+           (com.amazonaws.regions Region Regions)))
+
+(defn aws-region
+  "Converts a region key like :eu-west-1 to an enum from com.amazon.regions.Regions"
+  [region-key]
+  (when-let [region-name (-> region-key name clojure.string/upper-case (clojure.string/replace #"-" "_"))]
+    (. Regions valueOf region-name)))
 
 (defn make-client
   ([] (AmazonSimpleEmailServiceClient.))
@@ -10,14 +17,15 @@
 
 (def ses-client*
   (memoize
-    (fn [{:keys [provider access-key secret-key] :as client-opts}]
+    (fn [{:keys [provider region access-key secret-key] :as client-opts}]
       (if (empty? client-opts)
         (make-client)
         (let [^AWSCredentials creds
               (when-not provider (BasicAWSCredentials. access-key secret-key))
               ^AWSCredentialsProvider provider
               (or provider (when-not creds (DefaultAWSCredentialsProviderChain.)))]
-          (make-client (or provider creds)))))))
+          (doto-cond [c (make-client (or provider creds))]
+            region (.withRegion (aws-region region))))))))
 
 (defn ses-client ^AmazonSimpleEmailServiceClient [client-opts] (ses-client* client-opts))
 

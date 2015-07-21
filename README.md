@@ -22,10 +22,12 @@ Only the `sendEmail` method is wrapped at the moment.
 Where client-opts may be:
 
 ```clj
-; Using the default provider chain falls back to the instance profile
+;; Using the default provider chain falls back to the instance profile
 {:provider (DefaultAWSCredentialsProviderChain.)}
-; Or use keys directly
+;; Or use keys directly
 {:access-key "..." :secret-key "..."}
+;; The region can also be specified
+{:region :eu-west-1}
 
 ```
 
