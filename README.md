@@ -16,7 +16,7 @@ Only the `sendEmail` method is wrapped at the moment.
   "lucky-customer@me.com"
   "You are our millionth customer!"
   {:html_body "<html>Awesome html content</html>"
-   :text_body "Boring text content"}
+   :text_body "Boring text content"})
 ```
 
 Where client-opts may be:
