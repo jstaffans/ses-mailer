@@ -6,7 +6,7 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.6.0"]
                  [joda-time "2.8"]
-                 [com.amazonaws/aws-java-sdk-ses "1.9.39" :exclusions [joda-time]]
+                 [com.amazonaws/aws-java-sdk-ses "1.11.192" :exclusions [joda-time]]
                  [com.taoensso/encore "1.34.0"]]
   :profiles {:dev {:dependencies [[im.chit/vinyasa "0.3.4"]]}
              :test {:dependencies [[expectations "2.1.2"]]
