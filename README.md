@@ -33,7 +33,7 @@ Where client-opts may be:
 
 ## License
 
-Copyright © 2015 Johannes Staffans
+Copyright © 2015-2017 Johannes Staffans
 
 Distributed under the Eclipse Public License either version 1.0 or (at
 your option) any later version.
